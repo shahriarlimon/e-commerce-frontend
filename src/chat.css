@@ -69,3 +69,7 @@
 .form-control:focus, .btn:focus{
     box-shadow: none;
 }
+.chat-msg{
+    max-height: 300px;
+    overflow: auto;
+}
