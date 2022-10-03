@@ -21,7 +21,7 @@ const ProductForListComponents = ({ images, idx }) => {
               <Rating readonly size={20} initialValue={5} />(1)
             </Card.Text>
             <Card.Text className='h4'>
-              $175  <LinkContainer to={"/product-details"}><Button variant="danger">See product</Button></LinkContainer>
+              $175  <LinkContainer to={"/product-detail"}><Button variant="danger">See product</Button></LinkContainer>
             </Card.Text>
 
           </Card.Body>
