@@ -21,11 +21,13 @@ import UserCartDetailPage from "./pages/user/UserCartDetailPage";
 import UserOrderDetailPage from "./pages/user/UserOrderDetailPage";
 import UserOrderPage from "./pages/user/UserOrderPage";
 import UserProfilePage from "./pages/user/UserProfilePage";
+import ScrolToTop from "./utils/ScrolToTop";
 
 
 function App() {
   return (
     <>
+     <ScrolToTop/>
       <HeaderComponents />
       <Routes>
         <Route element={<RoutesWithUserChatComponent />}>
