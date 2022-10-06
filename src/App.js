@@ -52,7 +52,7 @@ function App() {
           <Route path="/admin/edit-user" element={<AdminEditUserPage />} />
           <Route path="/admin/products" element={<AdminProductsPage />} />
           <Route path="/admin/order-details" element={<AdminOrderDetailsPage />} />
-          <Route path="/admin/create-product" element={<AdminCreateProductPage />} />
+          <Route path="/admin/product/create-new-product" element={<AdminCreateProductPage />} />
           <Route path="/admin/orders" element={<AdminOrdersPage />} />
           <Route path="/admin/chars" element={<AdminChartsPage />} />
           <Route path="/admin/analytics" element={<AdminAnalyticsPage />} />
