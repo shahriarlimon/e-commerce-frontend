@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import AdminAnalyticsPage from "./admin/AdminAnalyticsPage";
 import AdminChartsPage from "./admin/AdminChartsPage";
 import AdminCreateProductPage from "./admin/AdminCreateProductPage";
+import AdminEditProductPage from "./admin/AdminEditProductPage";
 import AdminEditUserPage from "./admin/AdminEditUserPage";
 import AdminOrderDetailsPage from "./admin/AdminOrderDetailsPage";
 import AdminOrdersPage from "./admin/AdminOrdersPage";
@@ -27,7 +28,7 @@ import ScrolToTop from "./utils/ScrolToTop";
 function App() {
   return (
     <>
-     <ScrolToTop/>
+      <ScrolToTop />
       <HeaderComponents />
       <Routes>
         <Route element={<RoutesWithUserChatComponent />}>
@@ -53,6 +54,7 @@ function App() {
           <Route path="/admin/products" element={<AdminProductsPage />} />
           <Route path="/admin/order-details" element={<AdminOrderDetailsPage />} />
           <Route path="/admin/product/create-new-product" element={<AdminCreateProductPage />} />
+          <Route path="/admin/product/edit-product" element={<AdminEditProductPage />} />
           <Route path="/admin/orders" element={<AdminOrdersPage />} />
           <Route path="/admin/chars" element={<AdminChartsPage />} />
           <Route path="/admin/analytics" element={<AdminAnalyticsPage />} />
