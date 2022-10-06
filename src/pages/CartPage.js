@@ -5,7 +5,7 @@ import CartItemComponent from '../components/CartItemComponent';
 
 const CartPage = () => {
     return (
-        <Container style={{marginBottom:"130px"}}>
+        <Container style={{ marginBottom: "130px" }}>
             <Row className='mt-4'>
                 <Col md={8}>
                     <h1>Shopping Cart</h1>
@@ -22,7 +22,7 @@ const CartPage = () => {
                     <ListGroup>
                         <ListGroupItem><h3>Subtotal (2 Items) </h3></ListGroupItem>
                         <ListGroupItem>Price: <span className='fw-bold'>$275</span></ListGroupItem>
-                        <ListGroupItem><LinkContainer to={"/user/order-details"}><Button type='button'>Checkout</Button></LinkContainer></ListGroupItem>
+                        <ListGroupItem><LinkContainer to={"/user/cart-details"}><Button type='button'>Proceed to Checkout</Button></LinkContainer></ListGroupItem>
                     </ListGroup>
 
                 </Col>

@@ -33,7 +33,7 @@ const UserOrderPage = () => {
                                 < AiOutlineCheckCircle className='text-success ' />
                             </td>
                             <td>
-                                <Link to={"/order-details"}>Go to order details</Link>
+                                <Link to={"/user/order-details"}>Go to order details</Link>
                             </td>
                         </tr>
                         <tr>
@@ -47,7 +47,7 @@ const UserOrderPage = () => {
                                 <ImCross className='text-danger'/>
                             </td>
                             <td>
-                                <Link to={"/order-details"}>Go to order details</Link>
+                                <Link to={"/user/order-details"}>Go to order details</Link>
                             </td>
                         </tr>
 
