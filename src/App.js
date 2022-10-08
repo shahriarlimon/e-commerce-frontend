@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import AdminAnalyticsPage from "./admin/AdminAnalyticsPage";
-import AdminChartsPage from "./admin/AdminChartsPage";
+import AdminChatPage from "./admin/AdminChatPage";
 import AdminCreateProductPage from "./admin/AdminCreateProductPage";
 import AdminEditProductPage from "./admin/AdminEditProductPage";
 import AdminEditUserPage from "./admin/AdminEditUserPage";
@@ -56,7 +56,7 @@ function App() {
           <Route path="/admin/product/create-new-product" element={<AdminCreateProductPage />} />
           <Route path="/admin/product/edit-product" element={<AdminEditProductPage />} />
           <Route path="/admin/orders" element={<AdminOrdersPage />} />
-          <Route path="/admin/chars" element={<AdminChartsPage />} />
+          <Route path="/admin/chats" element={<AdminChatPage />} />
           <Route path="/admin/analytics" element={<AdminAnalyticsPage />} />
         </Route>
 
