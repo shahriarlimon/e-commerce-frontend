@@ -7,8 +7,10 @@ import RatingFilterComponent from '../components/FilterQueryResultOption/RatingF
 import PagintationComponent from '../components/PagintationComponent';
 import ProductForListComponents from '../components/ProductForListComponents';
 import SortOptionsComponents from '../components/SortOptionsComponents';
+import axios from 'axios'
 
 const ProductListPage = () => {
+    axios.get("http://localhost:4000/api/v1/products ").then((res)=>console.log(res))
     return (
         <Container fluid style={{ marginBottom: "130px" }}>
             <Row>

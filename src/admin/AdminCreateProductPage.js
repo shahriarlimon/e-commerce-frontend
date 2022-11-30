@@ -86,7 +86,7 @@ const AdminCreateProductPage = () => {
                                         type="number"
                                         name='atrrkey'
                                         aria-label='defalut select example'
-                                    ><option value={""}>Choose attribute</option>
+                                    ><option value={""}>Choose attribute </option>
                                         <option value={"1"}>Laptop</option>
                                         <option value={"2"}>TV</option>
                                         <option value={"3"}>Games</option></Form.Select>
@@ -96,13 +96,13 @@ const AdminCreateProductPage = () => {
                             </Col>
                             <Col md={6}>
                                 <Form.Group className='mb-3' controlId="formBasicAttribute">
-                                    <Form.Label> Choose attribute and set value</Form.Label>
+                                    <Form.Label> Attribute value</Form.Label>
                                     <Form.Select
                                         required
                                         type="number"
                                         name='atrrkey'
                                         aria-label='defalut select example'
-                                    ><option value={""}>Choose attribute</option>
+                                    ><option value={""}>Choose attribute value</option>
                                         <option value={"1"}>Laptop</option>
                                         <option value={"2"}>TV</option>
                                         <option value={"3"}>Games</option></Form.Select>
@@ -146,7 +146,7 @@ const AdminCreateProductPage = () => {
                             </Col>
                             <Col md={6}>
                                 <Form.Group className='mb-3' controlId="formBasicNewAttribute">
-                                    <Form.Label> Create new attribute</Form.Label>
+                                    <Form.Label> Attribute value</Form.Label>
                                     <Form.Control
                                         required
                                         type="text"

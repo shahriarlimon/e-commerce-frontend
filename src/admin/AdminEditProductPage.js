@@ -128,7 +128,7 @@ const AdminEditProductPage = () => {
                                 <tbody>
                                     <tr>
                                         <td>attr key</td>
-                                        <td>attr key</td>
+                                        <td>attr value</td>
                                         <td><CloseButton /></td>
                                     </tr>
                                 </tbody>
@@ -146,13 +146,12 @@ const AdminEditProductPage = () => {
                                         placeholder="first choose or create category"
 
                                     />
-
                                 </Form.Group>
 
                             </Col>
                             <Col md={6}>
                                 <Form.Group className='mb-3' controlId="formBasicNewAttribute">
-                                    <Form.Label> Create new attribute</Form.Label>
+                                    <Form.Label> Create new attribute value</Form.Label>
                                     <Form.Control
                                         required
                                         type="text"
