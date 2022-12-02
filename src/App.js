@@ -30,6 +30,7 @@ function App() {
     <>
       <ScrolToTop />
       <HeaderComponents />
+
       <Routes>
         <Route element={<RoutesWithUserChatComponent />}>
           <Route path="/" element={<HomePage />} />
@@ -52,7 +53,7 @@ function App() {
           <Route path="/admin/users" element={<AdminUsersPage />} />
           <Route path="/admin/edit-user" element={<AdminEditUserPage />} />
           <Route path="/admin/products" element={<AdminProductsPage />} />
-          <Route path="/admin/order-details" element={<AdminOrderDetailsPage />} />
+          <Route path="/admin/order-details/:id" element={<AdminOrderDetailsPage />} />
           <Route path="/admin/product/create-new-product" element={<AdminCreateProductPage />} />
           <Route path="/admin/product/edit-product" element={<AdminEditProductPage />} />
           <Route path="/admin/orders" element={<AdminOrdersPage />} />
@@ -62,6 +63,7 @@ function App() {
 
         <Route path="*" element={"page doesn't exist"} />
       </Routes>
+
       <FooterComponents />
 
     </>
