@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import CartItemComponent from '../../components/CartItemComponent';
 
 
-const OrderDetailPageComponent = ({ getOrder }) => {
+const OrderDetailPageComponent = ({ getOrder, markAsDelivered }) => {
     const { id } = useParams();
     const [userInfo, setUserInfo] = useState({})
     const [paymentMethod, setPaymentMethod] = useState("")
@@ -13,6 +13,8 @@ const OrderDetailPageComponent = ({ getOrder }) => {
     const [cartSubTotal, setCartSubTotal] = useState(0);
     const [buttonDisabled, setButtonDisabled] = useState(false);
     const [orderButtonMessage, setOrderButtonMessage] = useState("Mark as delivered");
+    const [cartItems, setCartItems] = useState([]);
+
 
     useEffect(() => {
         getOrder(id).then((order) => {
@@ -25,8 +27,9 @@ const OrderDetailPageComponent = ({ getOrder }) => {
                 setOrderButtonMessage("Order is finished")
                 setButtonDisabled(true)
             }
+            setCartItems(order.cartItems)
         })
-    }, [])
+    }, [isDelivered, id])
 
     return (
         <Container fluid style={{ marginBottom: "130px" }}>
@@ -66,7 +69,7 @@ const OrderDetailPageComponent = ({ getOrder }) => {
                     <h2>Ordered items</h2>
                     <ListGroup variant="flush">
                         {
-                            Array.from({ length: 3 }).map((item, idx) => (<CartItemComponent
+                            cartItems.map((item, idx) => (<CartItemComponent item={item} orderCreated={true}
                                 key={idx} />))
                         }
 
@@ -79,7 +82,7 @@ const OrderDetailPageComponent = ({ getOrder }) => {
                         <ListGroupItem> Shipping : <span className='fw-bold'>Inluded</span></ListGroupItem>
                         <ListGroupItem> Tax : <span className='fw-bold'>Inluded</span></ListGroupItem>
                         <ListGroupItem className='text-danger'> Total Price : <span className='fw-bold '>${cartSubTotal}</span></ListGroupItem>
-                        <ListGroupItem > <div className='d-grid gap-2'><Button disabled={buttonDisabled} size={"lg"} type="button" variant="danger">Mark as delivered</Button></div></ListGroupItem>
+                        <ListGroupItem > <div className='d-grid gap-2'><Button onClick={() => markAsDelivered(id).then((res) => setIsDelivered(true))} disabled={buttonDisabled} size={"lg"} type="button" variant="danger">{orderButtonMessage}</Button></div></ListGroupItem>
                     </ListGroup>
 
 
