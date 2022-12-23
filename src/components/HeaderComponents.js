@@ -51,13 +51,13 @@ const HeaderComponents = () => {
                             <NavDropdown.Item >Logout</NavDropdown.Item>
 
                         </NavDropdown>
-                        <LinkContainer to={"/login"}>
-                            <Nav.Link>Login</Nav.Link>
+                        <LinkContainer to="/login">
+                            <Nav.Link >Login</Nav.Link>
                         </LinkContainer>
-                        <LinkContainer to={"/register"}>
+                        <LinkContainer to="/register">
                             <Nav.Link>Register</Nav.Link>
                         </LinkContainer>
-                        <LinkContainer to={"/cart"}>
+                        <LinkContainer to="/cart">
                             <Nav.Link>
                                 <Badge pill bg="danger">2</Badge> <AiOutlineShoppingCart /> Cart
                             </Nav.Link>
