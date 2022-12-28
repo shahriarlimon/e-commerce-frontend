@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Alert, Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 
-const LoginPageComponent = ({ loginUserApiRequest }) => {
+const LoginPageComponent = ({ loginUserApiRequest, dispatch, setReduxUserState }) => {
     const [validated, setValidated] = useState(false);
     const navigate = useNavigate()
     const [loginUserResponsState, setLoginUserResponseState] = useState({
@@ -10,6 +10,7 @@ const LoginPageComponent = ({ loginUserApiRequest }) => {
         error: "",
         loading: false
     })
+   
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -18,15 +19,18 @@ const LoginPageComponent = ({ loginUserApiRequest }) => {
         const email = form.email.value;
         const password = form.password.value;
         const doNotLogout = form.doNotLogout.checked;
-        if (email && password) {
+        if (event.currentTarget.checkValidity() === true && email && password) {
             console.log(email)
             setLoginUserResponseState({ loading: true })
-            loginUserApiRequest(email, password, doNotLogout).then((res) => {
-                setLoginUserResponseState({ success: res.success, loading: false, error: "" })
-                if (res.success === 'user logged in' && !res.userLoggedIn.isAdmin) {
-                    navigate("/user", { replace: true })
+            loginUserApiRequest(email, password, doNotLogout).then((data) => {
+                setLoginUserResponseState({ success: data.success, loading: false, error: "" });
+                if (data.userLoggedIn) {
+                    dispatch(setReduxUserState(data.userLoggedIn))
+                }
+                if (data.success === 'user logged in' && !data.userLoggedIn.isAdmin) {
+                    window.location.href = "/user"
                 } else {
-                    navigate("/admin/orders", { replace: true })
+                    window.location.href = "/admin/orders"
                 }
             }).catch((er) => {
                 setLoginUserResponseState({ error: er.response.data.message ? er.response.data.message : er.response.data })
