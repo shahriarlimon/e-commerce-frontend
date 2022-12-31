@@ -3,25 +3,24 @@ import { Button, Card, Col, Row } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Rating } from 'react-simple-star-rating';
 
-const ProductForListComponents = ({ images, idx }) => {
+const ProductForListComponents = ({ images, name, description, rating, productId, price, reviewsNumber }) => {
   return (
     <Card style={{ marginTop: "30px", marginBottom: "50px" }} >
       <Row>
         <Col>
-          <Card.Img variant="top" src={"images/"+images[idx]+"-category.png"} />
+          <Card.Img variant="top" src={images[0] ? images[0].path : ""} />
         </Col>
         <Col>
           <Card.Body>
-            <Card.Title>Card Title</Card.Title>
+            <Card.Title>{name}</Card.Title>
             <Card.Text>
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
+              {description}
             </Card.Text>
             <Card.Text>
-              <Rating readonly size={20} initialValue={5} />(1)
+              <Rating readonly size={20} initialValue={rating} />({reviewsNumber})
             </Card.Text>
             <Card.Text className='h4'>
-              $175  <LinkContainer to={"/product-detail"}><Button variant="danger">See product</Button></LinkContainer>
+              ${price}  <LinkContainer to={`/product-details/${productId}`}><Button variant="danger">See product</Button></LinkContainer>
             </Card.Text>
 
           </Card.Body>

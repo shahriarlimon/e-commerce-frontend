@@ -1,42 +1,15 @@
-import React from 'react';
-import { Button, Col, Container, ListGroup, Row } from 'react-bootstrap';
-import AttributesFilterComponent from '../components/FilterQueryResultOption/AttributesFilterComponent';
-import CategoryFilterComponent from '../components/FilterQueryResultOption/CategoryFilterComponent';
-import PriceFilterComponent from '../components/FilterQueryResultOption/PriceFilterComponent';
-import RatingFilterComponent from '../components/FilterQueryResultOption/RatingFilterComponent';
-import PagintationComponent from '../components/PagintationComponent';
-import ProductForListComponents from '../components/ProductForListComponents';
-import SortOptionsComponents from '../components/SortOptionsComponents';
+
 import axios from 'axios'
+import ProductListPageComponent from './components/ProductListPageComponent';
+
 
 const ProductListPage = () => {
-    axios.get("http://localhost:4000/api/v1/products ").then((res)=>console.log(res))
-    return (
-        <Container fluid style={{ marginBottom: "130px" }}>
-            <Row>
-                <Col md={3}>
-                    <ListGroup variant="flush">
-                        <ListGroup.Item><SortOptionsComponents /></ListGroup.Item>
-                        <ListGroup.Item><span className='fw-bold'>FILTER:</span> <br /><PriceFilterComponent /></ListGroup.Item>
-                        <ListGroup.Item><RatingFilterComponent /></ListGroup.Item>
-                        <ListGroup.Item><CategoryFilterComponent /></ListGroup.Item>
-                        <ListGroup.Item><AttributesFilterComponent /></ListGroup.Item>
-                        <ListGroup.Item>
-                            <Button variant='primary'>Filter</Button>
-                            <Button variant='danger'>Reset filter</Button>
-                        </ListGroup.Item>
-                    </ListGroup>
-                </Col>
-                <Col md={9}>
-                    {
-                        Array.from({ length: 5 }).map((_, idx) => <ProductForListComponents idx={idx} images={["games", "monitors", "tablets", "games", "monitors"]} key={idx} />)
-                    }
+    const getProducts = async () => {
+        const { data } = await axios.get("http://localhost:4000/api/v1/products", { withCredentials: true })
+        return data
+    }
 
-                    <PagintationComponent />
-                </Col>
-            </Row>
-        </Container>
-    );
+    return (<ProductListPageComponent getProducts={getProducts} />)
 };
 
 export default ProductListPage;

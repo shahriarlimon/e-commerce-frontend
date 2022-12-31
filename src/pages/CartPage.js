@@ -1,34 +1,15 @@
 import React from 'react';
-import { Alert, Button, Col, Container, ListGroup, ListGroupItem, Row } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
-import CartItemComponent from '../components/CartItemComponent';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToCart, removeFromCart } from '../redux/actions/cartActions';
+
+import CartPageComponent from './components/CartPageComponent';
 
 const CartPage = () => {
+    const dispatch = useDispatch();
+    const cartItems = useSelector((state) => state.cart.cartItems);
+    const cartSubTotal = useSelector((state) => state.cart.cartSubTotal)
     return (
-        <Container style={{ marginBottom: "130px" }}>
-            <Row className='mt-4'>
-                <Col md={8}>
-                    <h1>Shopping Cart</h1>
-                    <ListGroup variant='flush'>
-                        {
-                            Array.from({ length: 3 }).map((item, idx) => (
-                                <CartItemComponent key={idx} />
-                            ))
-                        }
-                    </ListGroup>
-                    <Alert className='mt-5' variant='info'>Your shopping cart is empty</Alert>
-                </Col>
-                <Col md={4}>
-                    <ListGroup>
-                        <ListGroupItem><h3>Subtotal (2 Items) </h3></ListGroupItem>
-                        <ListGroupItem>Price: <span className='fw-bold'>$275</span></ListGroupItem>
-                        <ListGroupItem><LinkContainer to={"/user/cart-details"}><Button type='button'>Proceed to Checkout</Button></LinkContainer></ListGroupItem>
-                    </ListGroup>
-
-                </Col>
-
-            </Row>
-        </Container>
+        <CartPageComponent addToCart={addToCart} removeFromCart={removeFromCart} cartSubTotal={cartSubTotal} cartItems={cartItems} dispatch={dispatch} />
     );
 };
 

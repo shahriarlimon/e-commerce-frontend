@@ -11,6 +11,16 @@ const RegisterPageComponent = ({ registerUserApiRequest, dispatch, setReduxUserS
         loading: false
     })
     const [passwordsMatchState, setPasswordsMatchState] = useState(true)
+    const onChange = () => {
+        const password = document.querySelector("input[name=password]")
+        const confirmPassword = document.querySelector("input[name=confirmPassword]")
+        if (password.value === confirmPassword.value) {
+            setPasswordsMatchState(true)
+        } else {
+            setPasswordsMatchState(false)
+        }
+    }
+    
     const handleSubmit = (event) => {
         event.preventDefault();
         event.stopPropagation();
@@ -19,7 +29,6 @@ const RegisterPageComponent = ({ registerUserApiRequest, dispatch, setReduxUserS
         const lastName = form.lastName.value;
         const email = form.email.value;
         const password = form.password.value
-        const confirmPassword = form.confirmPassword.value
 
         if (event.currentTarget.checkValidity() === true && firstName && lastName && email && password && form.password.value === form.confirmPassword.value) {
             setRegisterUserResponseState({ loading: true })
@@ -34,15 +43,7 @@ const RegisterPageComponent = ({ registerUserApiRequest, dispatch, setReduxUserS
 
         setValidated(true);
     };
-    const onChange = () => {
-        const password = document.querySelector("input[name=password]")
-        const confirmPassword = document.querySelector("input[name=confirmPassword]")
-        if (password.value === confirmPassword.value) {
-            setPasswordsMatchState(true)
-        } else {
-            setPasswordsMatchState(false)
-        }
-    }
+  
     return (
         <Container style={{ marginBottom: "140px" }}>
             <Row className='mt-5 justify-content-md-center'>
