@@ -22,8 +22,14 @@ const UserCartDetailPage = () => {
             dispatch(removeFromCart(productId, quantity, price))
         }
     }
+
+    const createOrder = async (orderData) => {
+        const { data } = await axios.post(`http://localhost:4000/api/v1/orders/create`, { ...orderData }, { withCredentials: true });
+        console.log(data)
+        return data;
+    }
     return (
-        <UserCartDetailPageComponent getUser={getUser} userInfo={userInfo} removeFromCartHandler={removeFromCartHandler} changeCount={changeCount} dispatch={dispatch} cartItems={cartItems} itemsCount={itemsCount} cartSubTotal={cartSubTotal} />
+        <UserCartDetailPageComponent createOrder={createOrder} getUser={getUser} userInfo={userInfo} removeFromCartHandler={removeFromCartHandler} changeCount={changeCount} dispatch={dispatch} cartItems={cartItems} itemsCount={itemsCount} cartSubTotal={cartSubTotal} />
     );
 };
 

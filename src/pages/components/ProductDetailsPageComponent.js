@@ -64,7 +64,7 @@ const ProductDetailPageComponent = ({ dispatch, addToCart }) => {
                                 <ListGroup.Item>
                                     Quantity
                                     <Form>
-                                        <Form.Select onChange={(e) => setQuantity(e.target.value)} value={quantity} size='lg' aria-label="Default select example">
+                                        <Form.Select onChange={(e) => setQuantity(Number(e.target.value))} value={quantity} size='lg' aria-label="Default select example">
                                             <option>Choose</option>
                                             <option value="1">1</option>
                                             <option value="2">2</option>

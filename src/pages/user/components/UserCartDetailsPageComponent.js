@@ -2,12 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { Alert, Button, Col, Container, Form, ListGroup, ListGroupItem, Row } from 'react-bootstrap';
 import CartItemComponent from '../../../components/CartItemComponent';
 import { logout } from '../../../redux/actions/UserActions';
+import { useNavigate } from 'react-router-dom'
 
-
-const UserCartDetailPageComponent = ({ userInfo, changeCount, removeFromCartHandler, dispatch, cartItems, itemsCount, cartSubTotal, getUser }) => {
+const UserCartDetailPageComponent = ({ userInfo, changeCount, removeFromCartHandler, dispatch, cartItems, itemsCount, cartSubTotal, getUser, createOrder }) => {
     const [buttonDisabled, setButtonDisabled] = useState(false);
     const [userAddress, setUserAddress] = useState()
-    const [missingAddress, setMissingAddress] = useState("")
+    const [missingAddress, setMissingAddress] = useState("");
+    const [paymentMethod, setPaymentMethod] = useState("pp");
+    const navigate = useNavigate()
+    const choosePaymentMethod = (e) => {
+        setPaymentMethod(e.target.value)
+    }
     useEffect(() => {
         getUser().then((data) => {
             if (!data.address || !data.city || !data.country || !data.zipCode || !data.state || !data.phoneNumber) {
@@ -22,7 +27,40 @@ const UserCartDetailPageComponent = ({ userInfo, changeCount, removeFromCartHand
         }).catch((err) => {
             dispatch(logout())
         })
-    }, [userInfo._id])
+    }, [userInfo._id, dispatch, getUser])
+    const orderHandler = () => {
+        const orderData = {
+            orderTotal: {
+                itemsCount: itemsCount,
+                cartSubTotal: cartSubTotal,
+            },
+            cartItems: cartItems.map(item => {
+                return {
+                    productId: item.productId,
+                    name: item.name,
+                    image: {
+                        path: item.image ? (item.image.path ?? null) : null
+                    },
+                    price: item.price,
+                    quantity: item.quantity,
+                    count: item.count
+                }
+            }),
+            paymentMethod: paymentMethod
+
+        }
+        createOrder(orderData).then((data) => {
+            console.log(data)
+            if (data) {
+                navigate(`/user/order-details/${data?._id}`)
+                console.log("order placed")
+            }
+        }).catch((err) => {
+            console.log(err)
+        })
+
+    }
+
     return (
         <Container fluid style={{ marginBottom: "130px" }}>
             <Row className='mt-3'>
@@ -38,7 +76,7 @@ const UserCartDetailPageComponent = ({ userInfo, changeCount, removeFromCartHand
                         </Col>
                         <Col md={6}>
                             <h3>Payment method</h3>
-                            <Form.Select>
+                            <Form.Select onChange={choosePaymentMethod}>
                                 <option value="ppl">Paypal</option>
                                 <option value="cod">Cash on Delivery</option>
 
@@ -69,7 +107,7 @@ const UserCartDetailPageComponent = ({ userInfo, changeCount, removeFromCartHand
                         <ListGroupItem> Shipping : <span className='fw-bold'>Inluded</span></ListGroupItem>
                         <ListGroupItem> Tax : <span className='fw-bold'>Inluded</span></ListGroupItem>
                         <ListGroupItem className='text-danger'> Total Price : <span className='fw-bold '>${cartSubTotal}</span></ListGroupItem>
-                        <ListGroupItem > <div className='d-grid gap-2'><Button disabled={buttonDisabled} size={"lg"} type="button" variant="danger">Pay for the order</Button></div></ListGroupItem>
+                        <ListGroupItem > <div className='d-grid gap-2'><Button onClick={() => orderHandler()} disabled={buttonDisabled} size={"lg"} type="button" variant="danger">place the order</Button></div></ListGroupItem>
                     </ListGroup>
 
 

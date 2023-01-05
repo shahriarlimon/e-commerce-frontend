@@ -15,15 +15,15 @@ export const cartReducers = (state = initialState, action) => {
             const productAlreadyExistsInState = state.cartItems.find((x) => x.productId === productBeingAddedToCart.productId);
             const currentState = { ...state };
             if (productAlreadyExistsInState) {
-                currentState.itemsCount = 0
-                currentState.cartSubTotal = 0
+                currentState.itemsCount = Number(0)
+                currentState.cartSubTotal = Number(0)
                 currentState.cartItems = state.cartItems.map((x) => {
                     if (x.productId === productAlreadyExistsInState.productId) {
                         currentState.itemsCount += Number(productBeingAddedToCart.quantity);
                         const sum = Number(productBeingAddedToCart.quantity) * Number(productBeingAddedToCart.price);
                         currentState.cartSubTotal += sum;
                     } else {
-                        currentState.itemsCount += Number(x.price);
+                        currentState.itemsCount += Number(x.quantity);
                         const sum = Number(x.quantity) * Number(x.price);
                         currentState.cartSubTotal += sum;
                     }

@@ -1,65 +1,92 @@
 import React from 'react';
-import { Alert, Button, Col, Container, Form, ListGroup, ListGroupItem, Row } from 'react-bootstrap';
-import CartItemComponent from '../../components/CartItemComponent';
+import axios from 'axios';
+import { useSelector } from "react-redux";
+import UserOrderDetailsPageComponent from './UserOrderDetailsPageComponent';
+import { loadScript } from '@paypal/paypal-js'
 
 const UserOrderDetailPage = () => {
-    return (
-        <Container fluid style={{ marginBottom: "130px" }}>
-            <Row className='mt-3'>
-                <h1>Order details</h1>
-                <Col md={8}>
-                    <br />
-                    <Row>
-                        <Col md={6}>
-                            <h3>Shipping</h3>
-                            <b>Name</b>: John Doe <br />
-                            <b>Address</b>: 8739 Mayflower St.Los Angeles,CA 90063 <br />
-                            <b>Phone</b>: 888 777 666
-                        </Col>
-                        <Col md={6}>
-                            <h3>Payment method</h3>
-                            <Form.Select disabled={false}>
-                                <option value="ppl">Paypal</option>
-                                <option value="cod">Cash on Delivery</option>
+    const { userInfo } = useSelector((state) => state.userRegisterLogin.userRegisterLogin)
+    const getOrder = async (orderId) => {
+        const { data } = await axios.get(`http://localhost:4000/api/v1/orders/user/${orderId}`, { withCredentials: true })
+        return data
+    }
+    const getUser = async () => {
+        const { data } = await axios.get(`http://localhost:4000/api/v1/users/profile/${userInfo._id}`, { withCredentials: true })
+        return data
+    }
+    const loadPaypalScript = function (cartSubTotal, cartItems, orderId, updateStateAfterOrder) {
+        console.log(cartSubTotal, cartItems)
+        loadScript({
+            "client-id": "AXmAJOAupE6AITuv0oytTSyWHHfsM6saE3QWs-16jXDcx7hLIpylbWRhPwHbiBzam4mSIRUrG8A9C-8s"
+        }).then((paypal) => {
+            paypal.Buttons(buttons(cartSubTotal, cartItems, orderId, updateStateAfterOrder)).render("#paypal-container-element")
+        }).catch(err => {
+            console.log("failed to load paypal JS SDK script", err)
+        })
+    }
+    const buttons = (cartSubTotal, cartItems, orderId, updateStateAfterOrder) => {
+        return {
+            createOrder: function (data, actions) {
+                console.log(cartSubTotal, cartItems)
+                return actions.order.create(
+                    {
+                        purchase_units: [{
+                            amount: {
+                                value: cartSubTotal,
+                                breakdown: {
+                                    item_total: {
+                                        currency_code: "USD",
+                                        value: cartSubTotal
+                                    }
+                                }
+                            },
+                            items:
+                                cartItems?.map((product) => {
+                                    return {
+                                        name: product?.name,
+                                        unit_amount: {
+                                            currency_code: "USD",
+                                            value: product?.price
+                                        },
+                                        quantity: product?.quantity
+                                    }
+                                })
 
-                            </Form.Select>
-                        </Col>
-                        <Row>
-                            <Col>
-                                <Alert className='mt-3' variant='danger'>Not Delivered!</Alert>
-                            </Col>
-                            <Col>
-                                <Alert className='mt-3' variant='success'>Paid on 2-10-2000!</Alert>
-                            </Col>
-                        </Row>
-                    </Row>
-                    <br />
-                    <h2>Ordered items</h2>
-                    <ListGroup variant="flush">
-                        {
-                            Array.from({ length: 3 }).map((item, idx) => (<CartItemComponent key={idx} />))
-                        }
+                        }]
+                    }
+                )
+            },
+            onCancel: onCancelHandler,
+            onApprove: function (data, actions) {
+                return actions.order.capture().then(function (orderData) {
+                    var transaction = orderData.purchase_units[0].payments.captures[0];
+                    if (transaction.status === "COMPLETED" && Number(transaction.amount.value) === Number(cartSubTotal)) {
+                        updateOrder(orderId).then((data) => {
+                            if (data.isPaid) {
+                                updateStateAfterOrder(data.paidAt)
+                            }
+                        }).catch((err) => console.log(err))
+                    }
+                })
+            },
+            onError: onErrorHandler
+        }
+    }
 
-                    </ListGroup>
-                </Col>
-                <Col md={4}>
-                    <ListGroup>
-                        <ListGroupItem> <h3>Order Summary</h3></ListGroupItem>
-                        <ListGroupItem> Item price after tax: <span className='fw-bold'>$863</span></ListGroupItem>
-                        <ListGroupItem> Shipping : <span className='fw-bold'>Inluded</span></ListGroupItem>
-                        <ListGroupItem> Tax : <span className='fw-bold'>Inluded</span></ListGroupItem>
-                        <ListGroupItem className='text-danger'> Total Price : <span className='fw-bold '>904</span></ListGroupItem>
-                        <ListGroupItem > <div className='d-grid gap-2'><Button size={"lg"} type="button" variant="danger">Pay for the order</Button></div></ListGroupItem>
-                    </ListGroup>
-
-
-
-                </Col>
-            </Row>
-
-
-        </Container>
-    );
+    const onCancelHandler = function () {
+        console.log('on cancel handler')
+    }
+    const onApproveHandler = function () {
+        console.log('on approve handler')
+    }
+    const onErrorHandler = function (err) {
+        console.log('on error handler')
+    }
+    const updateOrder = async (orderId) => {
+        const { data } = await axios.put(`http://localhost:4000/api/v1/orders/paid/${orderId}`, { withCredentials: true })
+        return data;
+    }
+    return <UserOrderDetailsPageComponent loadPaypalScript={loadPaypalScript} getUser={getUser} userInfo={userInfo} getOrder={getOrder} />
 };
 
 export default UserOrderDetailPage;
