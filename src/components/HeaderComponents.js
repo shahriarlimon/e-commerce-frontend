@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -14,6 +14,7 @@ import { AiOutlineShoppingCart } from 'react-icons/ai'
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../redux/actions/UserActions';
+import { getCategories } from '../redux/actions/categoryAction';
 
 
 
@@ -21,6 +22,10 @@ const HeaderComponents = () => {
     const { userInfo } = useSelector((state) => state.userRegisterLogin.userRegisterLogin);
     const dispatch = useDispatch();
     const itemsCount = useSelector((state) => state.cart.itemsCount)
+   
+    useEffect(() => {
+        dispatch(getCategories())
+    }, [dispatch])
     return (
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
             <Container>
@@ -42,13 +47,11 @@ const HeaderComponents = () => {
                     </Nav>
                     <Nav>
                         {
-                            userInfo?.isAdmin ? (<LinkContainer to="/admin/orders">
+                            userInfo?.admin ? (<LinkContainer to="/admin/orders">
                                 <Nav.Link >Admin
                                     <span className='position-absolute top-1 start-10 translate-middle p-2 bg-danger border border-light rounded-circle'></span>
                                 </Nav.Link>
-
-
-                            </LinkContainer>) : userInfo?.firstName && !userInfo.isAdmin ? (<NavDropdown title={`${userInfo.firstName} ${userInfo.lastName}`} id="collasible-nav-dropdown">
+                            </LinkContainer>) : userInfo?.firstName && !userInfo.admin ? (<NavDropdown title={`${userInfo.firstName} ${userInfo.lastName}`} id="collasible-nav-dropdown">
                                 <NavDropdown.Item eventKey={"/user/my-orders"} as={Link} to="/user/my-orders">My Orders</NavDropdown.Item>
                                 <NavDropdown.Item eventKey={"/user"} as={Link} to="/user">My profile</NavDropdown.Item>
                                 <NavDropdown.Item onClick={() => dispatch(logout())} >Logout</NavDropdown.Item>
@@ -60,11 +63,6 @@ const HeaderComponents = () => {
                                     <Nav.Link>Register</Nav.Link>
                                 </LinkContainer></>)
                         }
-
-
-
-
-
                         <LinkContainer to="/cart">
                             <Nav.Link>
                                 <Badge pill bg="danger">{itemsCount === 0 ? "" : itemsCount}</Badge> <AiOutlineShoppingCart /> Cart

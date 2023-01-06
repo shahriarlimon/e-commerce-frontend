@@ -12,12 +12,14 @@ const UserProfilePageComponent = ({ updateUserApiRequest, fetchUser, userInfo, d
     })
     useEffect(() => {
         fetchUser(userInfo?._id).then((data) => {
-            console.log(data)
-            setUser(data)
+            if (data) {
+                setUser(data)
+            }
+
         }).catch((er) => {
             console.log(er)
         })
-    }, [userInfo?._id, fetchUser])
+    }, [fetchUser, userInfo?._id])
     const onChange = () => {
         const password = document.querySelector("input[name=password]")
         const confirmPassword = document.querySelector("input[name=confirmPassword]")
@@ -29,7 +31,6 @@ const UserProfilePageComponent = ({ updateUserApiRequest, fetchUser, userInfo, d
     }
     const handleSubmit = (event) => {
         event.preventDefault();
-        event.stopPropagation();
         const form = event.currentTarget.elements;
         const password = form.password.value;
         const firstName = form.firstName.value;

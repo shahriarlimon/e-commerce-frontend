@@ -7,11 +7,25 @@ import { loadScript } from '@paypal/paypal-js'
 const UserOrderDetailPage = () => {
     const { userInfo } = useSelector((state) => state.userRegisterLogin.userRegisterLogin)
     const getOrder = async (orderId) => {
-        const { data } = await axios.get(`http://localhost:4000/api/v1/orders/user/${orderId}`, { withCredentials: true })
+        const { data } = await axios.get(`http://localhost:4000/api/v1/orders/user/${orderId}`, {
+            withCredentials: true,
+            headers: {
+              crossDomain: true,
+              'Content-Type': 'application/json',
+              credentials: 'include',
+            },
+          })
         return data
     }
     const getUser = async () => {
-        const { data } = await axios.get(`http://localhost:4000/api/v1/users/profile/${userInfo._id}`, { withCredentials: true })
+        const { data } = await axios.get(`http://localhost:4000/api/v1/users/profile/${userInfo._id}`, {
+            withCredentials: true,
+            headers: {
+              crossDomain: true,
+              'Content-Type': 'application/json',
+              credentials: 'include',
+            },
+          })
         return data
     }
     const loadPaypalScript = function (cartSubTotal, cartItems, orderId, updateStateAfterOrder) {

@@ -10,11 +10,10 @@ const LoginPageComponent = ({ loginUserApiRequest, dispatch, setReduxUserState }
         error: "",
         loading: false
     })
-   
+
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        event.stopPropagation();
         const form = event.currentTarget.elements;
         const email = form.email.value;
         const password = form.password.value;
@@ -25,12 +24,13 @@ const LoginPageComponent = ({ loginUserApiRequest, dispatch, setReduxUserState }
             loginUserApiRequest(email, password, doNotLogout).then((data) => {
                 setLoginUserResponseState({ success: data.success, loading: false, error: "" });
                 if (data.userLoggedIn) {
+                    console.log('user loggedin', data.userLoggedIn)
                     dispatch(setReduxUserState(data.userLoggedIn))
                 }
-                if (data.success === 'user logged in' && !data.userLoggedIn.isAdmin) {
-                    window.location.href = "/user"
+                if (data.success === 'user logged in' && !data.userLoggedIn.admin) {
+                    navigate('/user');
                 } else {
-                    window.location.href = "/admin/orders"
+                    navigate('/admin/orders');
                 }
             }).catch((er) => {
                 setLoginUserResponseState({ error: er.response.data.message ? er.response.data.message : er.response.data })

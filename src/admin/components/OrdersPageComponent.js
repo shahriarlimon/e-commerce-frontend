@@ -10,7 +10,10 @@ const OrdersPageComponent = ({ fetchOrders }) => {
     const [deletedOrder, setDeletedOrder] = useState(false);
     useEffect(() => {
         const abctrl = new AbortController()
-        fetchOrders(abctrl).then((res) => setOrders(res))
+        fetchOrders(abctrl).then((res) => {
+            console.log(res)
+            setOrders(res)
+        })
         return () => abctrl.abort()
     }, [])
     return (
@@ -37,7 +40,7 @@ const OrdersPageComponent = ({ fetchOrders }) => {
                         {
                             orders?.map((order, idx) => (<tr key={idx}>
                                 <td>{idx + 1}</td>
-                                <td>{order?.user?.firstName}</td>
+                                <td>{order?.user?.firstName || order?.user?.name}</td>
                                 <td>{order?.createdAt.substring(0, 10)}</td>
                                 <td>
                                     {order?.orderTotal.cartSubTotal}

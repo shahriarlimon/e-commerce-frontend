@@ -1,7 +1,14 @@
 import { ADD_TO_CART, REMOVE_FROM_CART } from "../actionTypes/cartActionTypes"
 import axios from 'axios';
 export const addToCart = (productId, quantity) => async (dispatch, getState) => {
-    const { data } = await axios.get(`http://localhost:4000/api/v1/products/get-one/${productId}`, { withCredentials: true })
+    const { data } = await axios.get(`http://localhost:4000/api/v1/products/get-one/${productId}`, {
+        withCredentials: true,
+        headers: {
+          crossDomain: true,
+          'Content-Type': 'application/json',
+          credentials: 'include',
+        },
+      })
     dispatch({
 
         type: ADD_TO_CART,

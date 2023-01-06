@@ -19,7 +19,7 @@ const ProductPageComponent = ({ fetchProducts, deleteProduct }) => {
     useEffect(() => {
         const abctrl = new AbortController()
         fetchProducts(abctrl).then((res) => setProducts(res)).catch((er) => {
-            console.log(er.response.data.message ? er.response.data.message : er.response.data)
+            console.log(er)
         })
         return () => abctrl.abort()
     }, [deletedProduct])

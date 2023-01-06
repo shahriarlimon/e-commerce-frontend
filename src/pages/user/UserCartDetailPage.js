@@ -14,7 +14,14 @@ const UserCartDetailPage = () => {
         dispatch(addToCart(productId, count))
     }
     const getUser = async () => {
-        const { data } = await axios.get(`http://localhost:4000/api/v1/users/profile/${userInfo._id}`, { withCredentials: true });
+        const { data } = await axios.get(`http://localhost:4000/api/v1/users/profile/${userInfo._id}`, {
+            withCredentials: true,
+            headers: {
+              crossDomain: true,
+              'Content-Type': 'application/json',
+              credentials: 'include',
+            },
+          });
         return data;
     }
     const removeFromCartHandler = (productId, quantity, price) => {

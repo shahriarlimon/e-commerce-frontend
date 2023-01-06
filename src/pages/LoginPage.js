@@ -4,7 +4,14 @@ import axios from 'axios';
 import { useDispatch } from "react-redux";
 import { setReduxUserState } from '../redux/actions/UserActions';
 const loginUserApiRequest = async (email, password, doNotLogout) => {
-    const { data } = await axios.post("http://localhost:4000/api/v1/users/login", { email, password, doNotLogout }, { withCredentials: true })
+    const { data } = await axios.post("http://localhost:4000/api/v1/users/login", { email, password, doNotLogout }, {
+        withCredentials: true,
+        headers: {
+            crossDomain: true,
+            'Content-Type': 'application/json',
+            credentials: 'include',
+        },
+    })
     if (data.userLoggedIn.doNotLogout) {
         localStorage.setItem("userInfo", JSON.stringify(data.userLoggedIn))
     } else {
